@@ -1,14 +1,12 @@
-# Local AI Vtuber (A tool for hosting AI vtubers that runs fully locally and offline)
+# Local AI Vtuber (Ein Tool für KI-Vtubers, das vollständig lokal und offline läuft)
 
-Full demo and setup guide: https://youtu.be/Yl-T3YgePmw?si=n-vaZzClw0Q833E5
+Vollständiges Demo- und Setup-Video: https://youtu.be/Yl-T3YgePmw?si=n-vaZzClw0Q833E5
 
-- Chatbot, Translation and Text-to-Speech, all completely free and running locally.
-- Support voice output in Japanese, English, German, Spanish, French, Russian and more, powered by RVC, silero and voicevox.
-- Includes custom finetuned model to avoid generic chatbot responses and breaking character.
-- Gradio UI web interface.
-- plugin support for easily adding other providers.
-
-
+- Chatbot, Übersetzung und Text-to-Speech (TTS), alles komplett kostenlos und lokal auf deinem PC.
+- Unterstützt Sprachausgabe in Deutsch, Englisch, Japanisch, Spanisch, Französisch, Russisch und mehr, angetrieben von RVC, Silero und Voicevox.
+- Beinhaltet ein speziell trainiertes KI-Modell, um generische Chatbot-Antworten zu vermeiden und den Charakter beizubehalten.
+- Weboberfläche über Gradio UI.
+- Plugin-Unterstützung, um einfach weitere Anbieter (z.B. für andere KIs oder Stimmen) hinzuzufügen.
 
 <table>
   <tr>
@@ -17,120 +15,117 @@ Full demo and setup guide: https://youtu.be/Yl-T3YgePmw?si=n-vaZzClw0Q833E5
   </tr>
 </table>
 
+## Verbesserte Installationsanleitung für Windows
 
-## Installation
-### Manual setup (Tutorial video: [Full demo and setup guide](https://youtu.be/Yl-T3YgePmw?si=n-vaZzClw0Q833E5))
-install python 3.10
-https://www.python.org/downloads/release/python-3100/
+Diese Anleitung wurde überarbeitet, um eine reibungslosere Installation unter Windows zu gewährleisten. Sie basiert auf der Annahme, dass du diesen Fork (eine verbesserte Version) des Projekts verwendest, der bereits eine reparierte `requirements.txt` enthält.
 
-install CUDA toolkit 12.4
-https://developer.nvidia.com/cuda-12-4-0-download-archive
+### Phase 1: Vorbereitung (Die Basis-Software)
 
-install visual studio and add desktop development with C++ component
-https://visualstudio.microsoft.com/downloads/
+Bevor du startest, stelle sicher, dass die folgende Software installiert ist:
 
-![Screenshot 2024-10-03 100032](https://github.com/user-attachments/assets/11e56864-00ab-4c2d-931a-d9cc9422b52b)
+1.  **Python 3.10:** Lade es von der [offiziellen Python-Webseite](https://www.python.org/downloads/release/python-3100/) herunter.
+    - **WICHTIG:** Setze bei der Installation den Haken bei **"Add Python 3.10 to PATH"**.
 
+2.  **NVIDIA CUDA Toolkit (Optional, für NVIDIA-GPUs):** Wenn du eine starke NVIDIA-Grafikkarte hast, installiere das [CUDA Toolkit 12.1 oder neuer](https://developer.nvidia.com/cuda-toolkit-archive).
+3.  **Visual Studio:** Installiere die kostenlose [Visual Studio Community Edition](https://visualstudio.microsoft.com/downloads/).
+    - **WICHTIG:** Wähle bei der Installation die Komponente **"Desktopentwicklung mit C++"** aus.
+4.  **Git:** Installiere [Git für Windows](https://git-scm.com/download/win).
 
-#### 1. Download the project from [releases](https://github.com/0Xiaohei0/LocalAIVtuber/releases)
-#### 2. open command prompt in project folder.
-  
-#### 3. Create environment
-  ```
-  python -m venv venv
-  .\venv\Scripts\activate
-  ```
-  (If you encounter an error that says “cannot be loaded because the execution of scripts is disabled on this system. Open powershell with admin privilage and run ```Set-ExecutionPolicy RemoteSigned```)
-  
-#### 4. Install packages
-  ```
-  pip install -r requirements.txt
-  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-  pip install llama-cpp-python
+### Phase 2: Projekt-Installation
 
-  pip install nltk
-  python -m nltk.downloader -d C:\nltk_data all
-  ```
-
-#### 5. Start Program
-   ```
-   python main.py
-   ```
-    When you see this message, go to http://localhost:7860 to see web UI 
+1.  **Projekt klonen:** Öffne die Windows-Kommandozeile (`cmd`) und führe diesen Befehl aus, um das Projekt herunterzuladen:
+    ```    git clone https://github.com/DEIN-GITHUB-NAME/LocalAIVtuber.git
     ```
-    Running on local URL:  http://127.0.0.1:7860
-    To create a public link, set `share=True` in `launch()`.
+    *(Ersetze `DEIN-GITHUB-NAME` durch deinen tatsächlichen GitHub-Benutzernamen)*.
+    Wechsle danach in den neuen Ordner: `cd LocalAIVtuber`
+
+2.  **Virtuelle Umgebung erstellen:**
     ```
+    python -m venv venv
+    .\venv\Scripts\activate
+    ```
+    *(Falls ein Fehler auftritt, dass Skripte nicht ausgeführt werden können, öffne PowerShell als Administrator und führe `Set-ExecutionPolicy RemoteSigned` aus und bestätige mit 'J'.)*
 
-### Notes: 
+3.  **Manuelle Installation von `pyopenjtalk` (WICHTIGSTER SCHRITT):**
+    - Ein benötigtes Paket (`pyopenjtalk`) kann nicht automatisch gebaut werden. Wir installieren es daher manuell.
+    - Gehe auf diese Webseite: [Gohlke's Python Libraries](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyopenjtalk)
+    - Drücke `Strg + F` und suche nach `pyopenjtalk`.
+    - Lade die Datei herunter, die exakt so heißt: **`pyopenjtalk‑0.3.3‑cp310‑cp310‑win_amd64.whl`**
+    - Speichere diese `.whl`-Datei direkt in deinem Projektordner (`LocalAIVtuber`).
+    - Führe in deiner aktiven Kommandozeile diesen Befehl aus:
+      ```
+      pip install pyopenjtalk-0.3.3-cp310-cp310-win_amd64.whl
+      ```
 
-#### restarting program
+4.  **Restliche Pakete installieren:**
+    - Die `requirements.txt` in diesem Fork ist bereits repariert. Führe einfach aus:
+      ```
+      pip install -r requirements.txt
+      ```
 
-To start the program again, run:
-  ```
-  .\venv\Scripts\activate
-   python main.py
-   ```
-#### run llm on gpu
-If you have a decent GPU, You can install the GPU version of llama-cpp-python:
-```
-$env:CMAKE_ARGS ="-DGGML_CUDA=ON"
- pip install llama-cpp-python --force-reinstall --no-cache-dir --verbose --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/124
-```
-This can improve latency further.
+### Phase 3: Erste Konfiguration (Wichtige Fixes)
 
-Just a reminder for someone using Command Prompt instead of Power Shell
-Change this
-```
-$env:CMAKE_ARGS ="-DGGML_CUDA=ON"
-```
-To this
-```
+Bevor du das Programm startest, müssen wir zwei Dinge manuell anpassen, um eine gute Erfahrung auf Deutsch zu gewährleisten.
+
+1.  **Deutsche Spracheingabe reparieren:**
+    - Standardmäßig versteht das Programm nur Englisch. Um das zu beheben:
+    - Öffne die Datei: `plugins\VoiceInput\VoiceInput.py` mit einem Texteditor.
+    - Finde die Zeile (ca. Zeile 21): `self.model = whisper.load_model("small.en")`
+    - Ändere sie zu: `self.model = whisper.load_model("medium")`
+    - Speichere die Datei.
+
+2.  **Sprachausgabe (TTS) aktivieren:**
+    - Standardmäßig sind alle Sprachausgabe-Plugins deaktiviert.
+    - Öffne die Datei `modules.json` mit einem Texteditor.
+    - Ändere die Zeile `"silero": false,` zu `"silero": true,`.
+    - Speichere die Datei.
+
+### Phase 4: Programmstart
+
+1.  **Programm starten:**
+    ```    python main.py
+    ```
+    - Beim ersten Start werden die KI-Modelle (wie das `medium`-Whisper-Modell) heruntergeladen. Dies kann je nach Internetverbindung einige Minuten dauern. Sei geduldig und beobachte die Kommandozeile.
+
+2.  **Weboberfläche öffnen:**
+    - Sobald du die Nachricht `Running on local URL: http://127.0.0.1:7860` siehst, ist das Programm bereit.
+    - Öffne deinen Webbrowser und gehe zu: **http://127.0.0.1:7860**
+
+### Hinweise
+
+#### Programm neu starten
+Um das Programm später erneut zu starten, führe einfach diese Befehle im Projektordner aus:
+.\venv\Scripts\activate
+python main.py
+Generated code
+#### LLM auf der GPU ausführen (für bessere Performance)
+Wenn du eine starke NVIDIA-GPU hast, kannst du die KI-Berechnungen beschleunigen. Installiere `llama-cpp-python` mit CUDA-Unterstützung mit diesen Befehlen:
+*In der Kommandozeile (cmd):*
 set CMAKE_ARGS=-DGGML_CUDA=ON
-```
-or it will show error 
-```
+pip install llama-cpp-python --force-reinstall --no-cache-dir --verbose
+Generated code
+*In PowerShell:*
 $env:CMAKE_ARGS ="-DGGML_CUDA=ON"
-The filename, directory name, or volume label syntax is incorrect.
-```
-
-### One click setup (Outdated and may not work)
-1. Download the project from [releases](https://github.com/0Xiaohei0/LocalAIVtuber/releases)
-2. Extract and double click run.bat
-3. When you see this message, go to http://localhost:7860 to see web UI 
-```
-Running on local URL:  http://127.0.0.1:7860
-
-To create a public link, set `share=True` in `launch()`.
-```
-
-## TODO (This project is still under development and more features are planned)
-- Fetch chat input from streaming platforms (Finished)
-- Improve local LLM (Finetuned model avaliable https://huggingface.co/xiaoheiqaq/Aya-7b-gguf)
-- Write plugins for cloud providers(Azure tts, elevenlabs, chatgpt, whisper...)
-- GPU support (Finished)
-- Vtube studio integration (Finished)
-- Let AI play games and provide commentary. (can currently play chess and keep talking nobody explode)
-- AI singing
-
-
+pip install llama-cpp-python --force-reinstall --no-cache-dir --verbose
+Generated code
+## Zukünftige Pläne (Projekt-Roadmap)
+- [x] Chat-Input von Streaming-Plattformen abrufen
+- [x] Lokales LLM verbessern (Feinabgestimmtes Modell verfügbar)
+- [x] Plugins für Cloud-Anbieter schreiben (Azure TTS, Elevenlabs, ChatGPT, Whisper...)
+- [x] GPU-Unterstützung
+- [x] VTube Studio-Integration
+- [ ] KI Spiele spielen und kommentieren lassen (kann derzeit Schach und "Keep Talking and Nobody Explodes")
+- [ ] KI singen lassen
 
 ## FAQ:
+- **NameError: name '_in_projection' is not defined**
+  - Du kannst `gpt_sovits` und `rvc` nicht gleichzeitig in der `modules.json` aktivieren. Einige ihrer Module haben Konflikte.
 
-- NameError: name '_in_projection' is not defined
+- **UnboundLocalError: local variable 'response' referenced before assignment**
+  - Wenn du dieses Repository geklont hast, fehlen dir möglicherweise Modelldateien für `gpt-sovits`. Diese findest du in der ZIP-Datei im [Releases-Bereich des Original-Projekts](https://github.com/0Xiaohei0/LocalAIVtuber/releases). Ersetze den Ordner `plugins\gpt_sovits\models` mit dem aus der ZIP-Datei.
 
-You cannot enable gpt sovits and rvc at the same time, some of their modules have conflict. 
-
-- UnboundLocalError: local variable 'response' referenced before assignment
-
-  If you cloned this repo, you maybe missing model files for gpt-sovits, which will be in the zip folder in the [releases](https://github.com/0Xiaohei0/LocalAIVtuber/releases) section. 
-  replace plugins\gpt_sovits\models with the one from the zip.
-- To fetch chat from Youtube, copy the youtube_video_id from the stream url like this:
-  
- ![image](https://github.com/0Xiaohei0/LocalAIVtuber/assets/24196833/942b9811-46bc-40f9-a7df-7938d0070513)
-
-Then press start fetching chat
-
-![image](https://github.com/0Xiaohei0/LocalAIVtuber/assets/24196833/96b8a971-00e8-4930-a9b4-897b3ddf27bf)
-
-
+- **Wie nutze ich den YouTube-Chat-Abruf?**
+  - Kopiere die `youtube_video_id` aus der URL deines Streams.
+  ![image](https://github.com/0Xiaohei0/LocalAIVtuber/assets/24196833/942b9811-46bc-40f9-a7df-7938d0070513)
+  - Drücke dann auf "Start Fetching Chat".
+  ![image](https://github.com/0Xiaohei0/LocalAIVtuber/assets/24196833/96b8a971-00e8-4930-a9b4-897b3ddf27bf)
